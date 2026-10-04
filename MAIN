@@ -66,7 +66,7 @@
             -webkit-backdrop-filter: blur(12px);
             z-index: 2;
             margin: 40px 0;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s ease;
         }
 
         h1 {
@@ -161,11 +161,7 @@
             box-shadow: 0 10px 20px rgba(255, 202, 212, 0.4);
         }
 
-        button:active {
-            transform: translateY(1px);
-        }
-
-        /* Letter Workspace Core */
+        /* Main Letter Screen - Hidden initially */
         #app-screen {
             display: none;
             animation: fadeIn 0.8s ease forwards;
@@ -213,7 +209,7 @@
             padding: 20px;
             border-radius: 4px 16px 16px 4px;
             margin-bottom: 22px;
-            animation: cardAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: cardAppear 0.5s ease forwards;
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
@@ -253,7 +249,6 @@
             font-weight: bold;
             font-size: 1.1rem;
             min-height: 24px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         @keyframes fadeIn {
@@ -288,7 +283,7 @@
     <div class="lily-decoration lily-3">🪷</div>
 
     <div class="container">
-        <!-- ONE PAGE GATEWAY LOCK SCREEN -->
+        <!-- LOCK SCREEN -->
         <div id="lock-screen">
             <h1>Our Secret Garden</h1>
             <p>Enter the magic code to see our letters...</p>
@@ -299,7 +294,7 @@
             <div id="error-msg"></div>
         </div>
 
-        <!-- INSIDE APPLICATIVE DESIGN HUB -->
+        <!-- APP SCREEN -->
         <div id="app-screen">
             <h1>Write a Letter</h1>
             
@@ -316,3 +311,7 @@
 
             <div class="input-group">
                 <label for="message-input">What's on your mind?</label>
+                <textarea id="message-input" placeholder="Type your thoughts here, love..."></textarea>
+            </div>
+
+            <div style="text-align: center;">
