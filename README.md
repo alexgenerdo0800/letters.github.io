@@ -1,12 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Secret Garden Letters</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        :root {
+            --forest-green: #1E3F20;
+            --soft-pink: #FFCAD4;
+            --deep-pink: #D4A373;
+            --accent-pink: #E8AEB7;
+            --cream: #FAEDCD;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Playfair Display', serif;
+            background-color: var(--forest-green);
+            color: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .lily-decoration {
+            position: fixed;
+            font-size: 5rem;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+            user-select: none;
+        }
+        .lily-top-left { top: 20px; left: 20px; transform: rotate(-15deg); }
+        .lily-bottom-right { bottom: 20px; right: 20px; transform: rotate(165deg); }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            background: rgba(30, 63, 32, 0.85);
+            border: 3px double var(--soft-pink);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+            margin: 40px 0;
+        }
+
+        h1 {
+            font-family: 'Caveat', cursive;
+            color: var(--soft-pink);
+            text-align: center;
+            font-size: 3.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        #lock-screen {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #lock-screen p {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--soft-pink);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--soft-pink);
+        }
+
+        input[type="text"], input[type="password"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--soft-pink);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px var(--soft-pink);
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: var(--soft-pink);
+            color: var(--forest-green);
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            background-color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px var(--soft-pink);
+        }
+
+        #app-screen {
+            display: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .archive-section {
+            margin-top: 40px;
+            border-top: 2px dashed var(--soft-pink);
+            padding-top: 20px;
+        }
+
+        .archive-title {
+            font-family: 'Caveat', cursive;
+            color: var(--soft-pink);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #letters-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        #letters-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #letters-container::-webkit-scrollbar-thumb {
+            background: var(--soft-pink);
+            border-radius: 10px;
+        }
+
+        .letter-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--soft-pink);
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+
+        .letter-meta {
+            font-size: 0.9rem;
+            color: var(--soft-pink);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-style: italic;
+        }
+
+        .letter-body {
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .letter-card::after {
+            content: '💮';
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            opacity: 0.3;
+            font-size: 1.2rem;
+        }
+
+        #error-msg {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lily-decoration lily-top-left">🪷</div>
+    <div class="lily-decoration lily-bottom-right">🪷</div>
+
+    <div class="container">
+        <div id="lock-screen">
+            <h1>Our Secret Garden</h1>
+            <p>Enter the magic code to see our letters...</p>
+            <div class="input-group" style="max-width: 300px;">
+                <input type="password" id="secret-code" placeholder="••••••••" style="text-align: center; letter-spacing: 3px;">
+            </div>
+            <button onclick="unlockGarden()">Unlock</button>
+            <div id="error-msg"></div>
+        </div>
+
+        <div id="app-screen">
+            <h1>Write a Letter</h1>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="from-input">From:</label>
+                    <input type="text" id="from-input" placeholder="Your name...">
+                </div>
+                <div class="input-group">
+                    <label for="to-input">To:</label>
+                    <input type="text" id="to-input" placeholder="Her name...">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="message-input">What's on your mind?</label>
+                <textarea id="message-input" placeholder="Type your thoughts here, love..."></textarea>
+            </div>
+
+            <div style="text-align: center;">
+                <button onclick="sendLetter()">Send into the Garden</button>
+            </div>
+
+            <div class="archive-section">
+                <div class="archive-title">Our Shared Letters</div>
+                <div id="letters-container"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const REQUIRED_CODE = "03250904";
 
-        // Handle enter key on password input
         document.getElementById('secret-code').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') unlockGarden();
         });
 
-        // Function to check the pin code
         function unlockGarden() {
             const enteredCode = document.getElementById('secret-code').value;
             const errorMsg = document.getElementById('error-msg');
@@ -14,14 +275,13 @@
             if (enteredCode === REQUIRED_CODE) {
                 document.getElementById('lock-screen').style.display = 'none';
                 document.getElementById('app-screen').style.display = 'block';
-                displayLetters(); // Load any saved letters
+                displayLetters();
             } else {
                 errorMsg.innerText = "The code isn't right, love. Try again! 🌸";
                 document.getElementById('secret-code').value = '';
             }
         }
 
-        // Function to save and track letters locally forever
         function sendLetter() {
             const fromName = document.getElementById('from-input').value.trim();
             const toName = document.getElementById('to-input').value.trim();
@@ -32,7 +292,6 @@
                 return;
             }
 
-            // Create a custom tracking structure for the letter
             const newLetter = {
                 from: fromName,
                 to: toName,
@@ -43,52 +302,19 @@
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
-                }) // FIXED: Closed the date object options and string builder safely
+                })
             };
 
-            // Grab existing letters from localStorage or set an empty array if empty
             const letters = JSON.parse(localStorage.getItem('garden_letters')) || [];
-            
-            // Add new letter to the front of the list so freshest appears first
             letters.unshift(newLetter);
-            
-            // Save updated letters back to the browser's storage
             localStorage.setItem('garden_letters', JSON.stringify(letters));
 
-            // Reset input text areas
             document.getElementById('message-input').value = '';
-            
-            // Refresh layout block to display the new letter
             displayLetters();
         }
 
-        // Function to render letters inside the layout archive
         function displayLetters() {
             const container = document.getElementById('letters-container');
             const letters = JSON.parse(localStorage.getItem('garden_letters')) || [];
 
             if (letters.length === 0) {
-                container.innerHTML = `<p style="text-align:center; font-style:italic; opacity:0.7;">The garden is quiet. No letters written yet... 🌿</p>`;
-                return;
-            }
-
-            container.innerHTML = letters.map(letter => `
-                <div class="letter-card">
-                    <div class="letter-meta">
-                        <span><strong>From:</strong> ${escapeHTML(letter.from)} &nbsp;&nbsp; <strong>To:</strong> ${escapeHTML(letter.to)}</span>
-                        <span>${letter.date}</span>
-                    </div>
-                    <div class="letter-body">${escapeHTML(letter.body)}</div>
-                </div>
-            `).join('');
-        }
-
-        // Simple helper helper to stop text inputs from breaking HTML tags
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
-        }
-    </script>
-</body>
-</html>
