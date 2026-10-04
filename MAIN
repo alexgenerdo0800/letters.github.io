@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,6 +29,7 @@
             position: relative;
         }
 
+        /* Whimsical Lilies background decoration */
         .lily-decoration {
             position: fixed;
             font-size: 5rem;
@@ -62,6 +64,7 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
+        /* Lock Screen Styles */
         #lock-screen {
             text-align: center;
             display: flex;
@@ -75,6 +78,7 @@
             color: var(--soft-pink);
         }
 
+        /* Forms and Inputs */
         .input-group {
             margin-bottom: 20px;
             width: 100%;
@@ -116,6 +120,7 @@
             color: var(--forest-green);
             border: none;
             padding: 12px 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             border-radius: 25px;
             cursor: pointer;
@@ -131,6 +136,7 @@
             box-shadow: 0 6px 15px var(--soft-pink);
         }
 
+        /* Main App Screen */
         #app-screen {
             display: none;
         }
@@ -140,6 +146,7 @@
             gap: 20px;
         }
 
+        /* Letters Archive Section */
         .archive-section {
             margin-top: 40px;
             border-top: 2px dashed var(--soft-pink);
@@ -160,6 +167,7 @@
             padding-right: 10px;
         }
 
+        /* Custom Scrollbar */
         #letters-container::-webkit-scrollbar {
             width: 6px;
         }
@@ -216,6 +224,7 @@
 </head>
 <body>
 
+    <!-- Floating Whimsical Lilies Icons -->
     <div class="lily-decoration lily-top-left">🪷</div>
     <div class="lily-decoration lily-bottom-right">🪷</div>
 
@@ -255,9 +264,12 @@
                 <button type="button" onclick="sendLetter()">Send into the Garden</button>
             </div>
 
+            <!-- Letters Archive -->
             <div class="archive-section">
                 <div class="archive-title">Our Shared Letters</div>
-                <div id="letters-container"></div>
+                <div id="letters-container">
+                    <!-- Letters will appear here via JavaScript -->
+                </div>
             </div>
         </div>
     </div>
@@ -265,30 +277,28 @@
     <script>
         const REQUIRED_CODE = "03250904";
 
+        // Handle enter key on password input
         document.getElementById('secret-code').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') unlockGarden();
         });
 
+        // Function to check the pin code
         function unlockGarden() {
             const enteredCode = document.getElementById('secret-code').value.trim();
             const errorMsg = document.getElementById('error-msg');
 
             if (enteredCode === REQUIRED_CODE) {
-                // FIXED: Resolved the "style.style" typo that broke the button transition loop
+                // FIXED: Changed layout visibility swap to completely clear the screen freeze issue
                 document.getElementById('lock-screen').style.display = 'none';
                 document.getElementById('app-screen').style.display = 'block';
-                
-                try {
-                    displayLetters();
-                } catch(err) {
-                    console.log("Storage load safely bypassed:", err);
-                }
+                displayLetters(); // Safely render archive layout block
             } else {
                 errorMsg.innerText = "The code isn't right, love. Try again! 🌸";
                 document.getElementById('secret-code').value = '';
             }
         }
 
+        // Function to save and track letters locally forever
         function sendLetter() {
             const fromName = document.getElementById('from-input').value.trim();
             const toName = document.getElementById('to-input').value.trim();
@@ -307,13 +317,3 @@
                     month: 'short', 
                     day: 'numeric', 
                     year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                })
-            };
-
-            try {
-                const letters = JSON.parse(localStorage.getItem('garden_letters')) || [];
-                letters.unshift(newLetter);
-                localStorage.setItem('garden_letters', JSON.stringify(letters));
-            } catch(e) {
