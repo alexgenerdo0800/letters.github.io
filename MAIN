@@ -3,214 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Secret Garden Letters</title>
+    <title>Our Private Letterbox</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Playfair+Display:wght@400;600;700&display=swap');
-
-        :root {
-            --forest-green: #1a331e;
-            --soft-pink: #ffcad4;
-            --deep-pink: #e8aeb7;
-            --cream: #faedcd;
-            --card-bg: rgba(26, 51, 30, 0.75);
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: #f2f7f4; 
+            padding: 40px 20px; 
+            display: flex; 
+            justify-content: center; 
         }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Playfair Display', serif;
-            background-color: var(--forest-green);
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(255, 202, 212, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 202, 212, 0.05) 0%, transparent 40%);
-            color: var(--cream);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
+        .container { 
+            max-width: 600px; 
+            width: 100%; 
+            background: #1e3f20; /* Deep Forest Green */
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15); 
+            color: #ffcad4; /* Soft Pink text */
         }
-
-        .lily-decoration {
-            position: fixed;
-            font-size: 5.5rem;
-            opacity: 0.18;
-            pointer-events: none;
-            z-index: 1;
-            user-select: none;
-            filter: drop-shadow(0 0 10px var(--soft-pink));
-            animation: float 6s ease-in-out infinite;
+        h1 { 
+            font-size: 26px; 
+            text-align: center; 
+            margin-bottom: 5px; 
+            color: #ffb3c1; /* Brighter Pink accent */
         }
-
-        .lily-1 { top: 40px; left: 40px; transform: rotate(-15deg); }
-        .lily-2 { bottom: 40px; right: 40px; transform: rotate(15deg); animation-delay: 2s; }
-        .lily-3 { top: 60%; left: 5%; font-size: 3rem; opacity: 0.08; animation-delay: 4s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-15deg); }
-            50% { transform: translateY(-15px) rotate(-10deg); }
+        p.subtitle { 
+            text-align: center; 
+            color: #ffe5ec; 
+            font-size: 14px; 
+            margin-top: 0; 
+            margin-bottom: 25px; 
         }
-
-        .container {
-            width: 90%;
-            max-width: 600px;
-            background: var(--card-bg);
-            border: 2px solid var(--soft-pink);
-            outline: 4px double var(--soft-pink);
-            outline-offset: -12px;
-            border-radius: 30px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 202, 212, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 2;
-            margin: 40px 0;
-            transition: all 0.5s ease;
+        label { 
+            font-weight: 600; 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 14px; 
+            color: #ffb3c1;
         }
-
-        h1 {
-            font-family: 'Caveat', cursive;
-            color: var(--soft-pink);
-            text-align: center;
-            font-size: 3.8rem;
-            margin-top: 0;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.4);
-            letter-spacing: 1px;
-        }
-
-        #lock-screen {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        #lock-screen p {
-            font-style: italic;
-            font-size: 1.2rem;
-            color: var(--soft-pink);
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-
-        .input-group {
-            margin-bottom: 22px;
-            width: 100%;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: var(--soft-pink);
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        input[type="text"], input[type="password"], textarea {
-            width: 100%;
-            padding: 14px 18px;
-            border: 1.5px solid var(--soft-pink);
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.07);
+        input[type="password"], textarea { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border: 2px solid #ffcad4; 
+            border-radius: 8px; 
+            font-size: 15px; 
+            box-sizing: border-box; 
+            background-color: #2d5a30; /* Darker Forest Input Field */
             color: #fff;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
         }
-
-        input:focus, textarea:focus {
+        input[type="password"]::placeholder, textarea::placeholder {
+            color: #ffcad4;
+            opacity: 0.6;
+        }
+        input[type="password"]:focus, textarea:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.13);
-            box-shadow: 0 0 15px rgba(255, 202, 212, 0.4);
-            border-color: #fff;
+            border-color: #ffb3c1;
+            background-color: #346938;
+        }
+        .actions { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        button { 
+            flex: 1; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        .btn-encrypt { 
+            background-color: #ffb3c1; 
+            color: #1e3f20; 
+        }
+        .btn-encrypt:hover { 
+            background-color: #ffcad4; 
+            transform: translateY(-1px);
+        }
+        .btn-decrypt { 
+            background-color: #ff85a1; 
+            color: #ffffff; 
+        }
+        .btn-decrypt:hover { 
+            background-color: #ffb3c1; 
+            transform: translateY(-1px);
+        }
+        .output-box { 
+            background: #2d5a30; 
+            border: 2px dashed #ffcad4; 
+            padding: 15px; 
+            border-radius: 8px; 
+            min-height: 50px; 
+            word-break: break-all; 
+            font-family: monospace; 
+            font-size: 14px; 
+            white-space: pre-wrap; 
+            color: #ffffff;
+        }
+        .error { 
+            color: #ff4d6d; 
+            font-weight: 600; 
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Private Letterbox</h1>
+    <p class="subtitle">End-to-End Encrypted Communication</p>
+    
+    <label for="secret-code">Shared Secret Code (Password):</label>
+    <input type="password" id="secret-code" placeholder="Enter your secret mutual code...">
+    
+    <label for="message">Your Letter / Scrambled Text:</label>
+    <textarea id="message" placeholder="Type a letter to encrypt, OR paste scrambled text here to decrypt..."></textarea>
+    
+    <div class="actions">
+        <button class="btn-encrypt" onclick="processText(true)">🔒 Encrypt Letter</button>
+        <button class="btn-decrypt" onclick="processText(false)">🔓 Decrypt Letter</button>
+    </div>
+    
+    <label>Result:</label>
+    <div id="output" class="output-box">Your processed text will appear here...</div>
+</div>
+
+<script>
+    async function deriveKey(password, salt) {
+        const enc = new TextEncoder();
+        const baseKey = await window.crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]);
+        return window.crypto.subtle.deriveKey({ name: "PBKDF2", salt: salt, iterations: 100000, hash: "SHA-256" }, baseKey, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+    }
+
+    async function processText(isEncrypt) {
+        const password = document.getElementById('secret-code').value;
+        const textData = document.getElementById('message').value;
+        const outputDiv = document.getElementById('output');
+        
+        // Strict check: enforce the code to match your specific layout constraint
+        if (password !== "0920") { 
+            outputDiv.innerHTML = '<span class="error">Access Denied: Invalid Secret Code!</span>'; 
+            return; 
+        }
+        if (!textData) { 
+            outputDiv.innerHTML = '<span class="error">Error: Please provide some text to process.</span>'; 
+            return; 
         }
 
-        textarea {
-            height: 160px;
-            resize: vertical;
-            line-height: 1.5;
+        try {
+            const encoder = new TextEncoder(); 
+            const decoder = new TextDecoder();
+            
+            if (isEncrypt) {
+                const salt = window.crypto.getRandomValues(new Uint8Array(16));
+                const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                const key = await deriveKey(password, salt);
+                const encrypted = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoder.encode(textData));
+                const resultArray = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+                resultArray.set(salt, 0); 
+                resultArray.set(iv, salt.length); 
+                resultArray.set(new Uint8Array(encrypted), salt.length + iv.length);
+                outputDiv.innerText = btoa(String.fromCharCode.apply(null, resultArray));
+            } else {
+                const rawData = atob(textData); 
+                const bytes = new Uint8Array(rawData.length);
+                for (let i = 0; i < rawData.length; i++) { bytes[i] = rawData.charCodeAt(i); }
+                const salt = bytes.slice(0, 16); 
+                const iv = bytes.slice(16, 28); 
+                const ciphertext = bytes.slice(28);
+                const key = await deriveKey(password, salt);
+                const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ciphertext);
+                outputDiv.innerText = decoder.decode(decrypted);
+            }
+        } catch (e) { 
+            outputDiv.innerHTML = '<span class="error">Decryption Failed! Bad cipher text layout.</span>'; 
         }
-
-        button {
-            background-color: var(--soft-pink);
-            color: var(--forest-green);
-            border: none;
-            padding: 10px 40px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Caveat', cursive;
-            font-size: 1.7rem;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-            display: inline-block;
-        }
-
-        button:hover {
-            background-color: #fff;
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 10px 20px rgba(255, 202, 212, 0.4);
-        }
-
-        #app-screen {
-            display: none;
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .archive-section {
-            margin-top: 40px;
-            border-top: 2px dashed rgba(255, 202, 212, 0.4);
-            padding-top: 30px;
-        }
-
-        .archive-title {
-            font-family: 'Caveat', cursive;
-            color: var(--soft-pink);
-            font-size: 2.6rem;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        #letters-container {
-            max-height: 450px;
-            overflow-y: auto;
-            padding-right: 12px;
-        }
-
-        #letters-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #letters-container::-webkit-scrollbar-thumb {
-            background: var(--soft-pink);
-            border-radius: 10px;
-        }
-
-        .letter-card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 202, 212, 0.15);
-            border-left: 4px solid var(--soft-pink);
-            padding: 20px;
-            border-radius: 4px 16px 16px 4px;
-            margin-bottom: 22px;
-            animation: cardAppear 0.5s ease forwards;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        .letter-meta {
-            font-size: 0.95rem;
-            color: var(--soft-pink);
-            margin-bottom: 12
-
+    }
+</script>
+</body>
+</html>
