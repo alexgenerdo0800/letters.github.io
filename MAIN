@@ -1,4 +1,4 @@
-<!DOCTYPE (Just learning how to do this so bare with me) html>
+<!DOCTYPE html> (I am new to this so bare with me, lovely)
 <html>
 <head>
 <meta charset="UTF-8">
@@ -24,6 +24,10 @@
     margin: 10px 0;
     border-radius: 6px;
   }
+  .loading {
+    color: yellow;
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -39,14 +43,46 @@
 <button onclick="submitLetter()">Submit Letter</button>
 
 <h2>Letters</h2>
-<div id="letters"></div>
+<div id="letters" class="loading">Loading letters...</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 
 <script>
 const PIN = "03250904";
 
-// Load saved letters
-let letters = JSON.parse(localStorage.getItem("letters") || "[]");
-renderLetters();
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC5XqI_nKNrlHqKqR_K9xJ84AqUVdGLarU",
+  authDomain: "letters-7a9ef.firebaseapp.com",
+  databaseURL: "https://letters-7a9ef-default-rtdb.firebaseio.com",
+  projectId: "letters-7a9ef",
+  storageBucket: "letters-7a9ef.appspot.com",
+  messagingSenderId: "696088747559",
+  appId: "1:696088747559:web:1f3f8a5c5e8b2d4c9f6e1a"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Load and listen for letters in real-time
+db.ref("letters").on("value", (snapshot) => {
+  const data = snapshot.val();
+  let letters = [];
+  
+  if (data) {
+    // Convert Firebase object to array
+    letters = Object.keys(data).map(key => ({
+      id: key,
+      ...data[key]
+    }));
+    // Sort by timestamp (newest first)
+    letters.sort((a, b) => new Date(b.time) - new Date(a.time));
+  }
+  
+  renderLetters(letters);
+});
 
 function submitLetter() {
   const pin = document.getElementById("pinInput").value;
@@ -56,19 +92,34 @@ function submitLetter() {
   }
 
   const text = document.getElementById("letterBox").value.trim();
-  if (!text) return;
+  if (!text) {
+    alert("Please write a letter.");
+    return;
+  }
 
-  letters.push({ text, time: new Date().toLocaleString() });
-  localStorage.setItem("letters", JSON.stringify(letters));
-
-  renderLetters();
-  notify();
-  document.getElementById("letterBox").value = "";
+  // Push letter to Firebase with timestamp
+  db.ref("letters").push({
+    text: text,
+    time: new Date().toLocaleString(),
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  }).then(() => {
+    renderNotification("Letter submitted!");
+    document.getElementById("letterBox").value = "";
+    document.getElementById("pinInput").value = "";
+  }).catch((error) => {
+    alert("Error submitting letter: " + error.message);
+  });
 }
 
-function renderLetters() {
+function renderLetters(letters) {
   const container = document.getElementById("letters");
   container.innerHTML = "";
+  
+  if (letters.length === 0) {
+    container.innerHTML = "<p style='color: yellow;'>No letters yet...</p>";
+    return;
+  }
+  
   letters.forEach(l => {
     const div = document.createElement("div");
     div.className = "letter";
@@ -78,13 +129,13 @@ function renderLetters() {
 }
 
 // Browser notifications
-function notify() {
-  if (Notification.permission === "granted") {
-    new Notification("A new letter was sent!");
+function renderNotification(message) {
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(message);
   }
 }
 
-if (Notification.permission !== "granted") {
+if ("Notification" in window && Notification.permission !== "granted") {
   Notification.requestPermission();
 }
 </script>
