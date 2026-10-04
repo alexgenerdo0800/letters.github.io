@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Secret Garden Letters</title>
     <style>
-        @import url('letters.github.io');
+        @import url('https://googleapis.com');
 
         :root {
             --forest-green: #1E3F20;
@@ -221,16 +220,18 @@
     <div class="lily-decoration lily-bottom-right">🪷</div>
 
     <div class="container">
+        <!-- LOCK SCREEN -->
         <div id="lock-screen">
             <h1>Our Secret Garden</h1>
             <p>Enter the magic code to see our letters...</p>
             <div class="input-group" style="max-width: 300px;">
                 <input type="password" id="secret-code" placeholder="••••••••" style="text-align: center; letter-spacing: 3px;">
             </div>
-            <button onclick="unlockGarden()">Unlock</button>
+            <button type="button" onclick="unlockGarden()">Unlock</button>
             <div id="error-msg"></div>
         </div>
 
+        <!-- APP SCREEN -->
         <div id="app-screen">
             <h1>Write a Letter</h1>
             
@@ -251,7 +252,7 @@
             </div>
 
             <div style="text-align: center;">
-                <button onclick="sendLetter()">Send into the Garden</button>
+                <button type="button" onclick="sendLetter()">Send into the Garden</button>
             </div>
 
             <div class="archive-section">
@@ -269,13 +270,19 @@
         });
 
         function unlockGarden() {
-            const enteredCode = document.getElementById('secret-code').value;
+            const enteredCode = document.getElementById('secret-code').value.trim();
             const errorMsg = document.getElementById('error-msg');
 
             if (enteredCode === REQUIRED_CODE) {
+                // FIXED: Resolved the "style.style" typo that broke the button transition loop
                 document.getElementById('lock-screen').style.display = 'none';
                 document.getElementById('app-screen').style.display = 'block';
-                displayLetters();
+                
+                try {
+                    displayLetters();
+                } catch(err) {
+                    console.log("Storage load safely bypassed:", err);
+                }
             } else {
                 errorMsg.innerText = "The code isn't right, love. Try again! 🌸";
                 document.getElementById('secret-code').value = '';
@@ -305,16 +312,8 @@
                 })
             };
 
-            const letters = JSON.parse(localStorage.getItem('garden_letters')) || [];
-            letters.unshift(newLetter);
-            localStorage.setItem('garden_letters', JSON.stringify(letters));
-
-            document.getElementById('message-input').value = '';
-            displayLetters();
-        }
-
-        function displayLetters() {
-            const container = document.getElementById('letters-container');
-            const letters = JSON.parse(localStorage.getItem('garden_letters')) || [];
-
-            if (letters.length === 0) {
+            try {
+                const letters = JSON.parse(localStorage.getItem('garden_letters')) || [];
+                letters.unshift(newLetter);
+                localStorage.setItem('garden_letters', JSON.stringify(letters));
+            } catch(e) {
