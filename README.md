@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Secret Garden Letters</title>
     <style>
-        @import url('https://googleapis.com');
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Playfair+Display:wght@400;600;700&display=swap');
 
         :root {
             --forest-green: #1a331e;
@@ -20,7 +20,7 @@
             padding: 0;
             font-family: 'Playfair Display', serif;
             background-color: var(--forest-green);
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 30%, rgba(255, 202, 212, 0.05) 0%, transparent 40%),
                 radial-gradient(circle at 80% 70%, rgba(255, 202, 212, 0.05) 0%, transparent 40%);
             color: var(--cream);
@@ -32,7 +32,6 @@
             position: relative;
         }
 
-        /* Whimsical Floating Lilies Background Details */
         .lily-decoration {
             position: fixed;
             font-size: 5.5rem;
@@ -43,6 +42,7 @@
             filter: drop-shadow(0 0 10px var(--soft-pink));
             animation: float 6s ease-in-out infinite;
         }
+
         .lily-1 { top: 40px; left: 40px; transform: rotate(-15deg); }
         .lily-2 { bottom: 40px; right: 40px; transform: rotate(15deg); animation-delay: 2s; }
         .lily-3 { top: 60%; left: 5%; font-size: 3rem; opacity: 0.08; animation-delay: 4s; }
@@ -80,7 +80,6 @@
             letter-spacing: 1px;
         }
 
-        /* Lock Screen Panel Layout */
         #lock-screen {
             text-align: center;
             display: flex;
@@ -97,7 +96,6 @@
             opacity: 0.9;
         }
 
-        /* Input Controls and Typography Elements */
         .input-group {
             margin-bottom: 22px;
             width: 100%;
@@ -139,7 +137,6 @@
             line-height: 1.5;
         }
 
-        /* Elegant Button Accents */
         button {
             background-color: var(--soft-pink);
             color: var(--forest-green);
@@ -161,7 +158,6 @@
             box-shadow: 0 10px 20px rgba(255, 202, 212, 0.4);
         }
 
-        /* Main Letter Screen - Hidden initially */
         #app-screen {
             display: none;
             animation: fadeIn 0.8s ease forwards;
@@ -172,7 +168,6 @@
             gap: 20px;
         }
 
-        /* Dynamic Letters Archive Workspace */
         .archive-section {
             margin-top: 40px;
             border-top: 2px dashed rgba(255, 202, 212, 0.4);
@@ -193,10 +188,10 @@
             padding-right: 12px;
         }
 
-        /* Scrollbar Formatting */
         #letters-container::-webkit-scrollbar {
             width: 6px;
         }
+
         #letters-container::-webkit-scrollbar-thumb {
             background: var(--soft-pink);
             border-radius: 10px;
@@ -217,101 +212,5 @@
         .letter-meta {
             font-size: 0.95rem;
             color: var(--soft-pink);
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-style: italic;
-            border-bottom: 1px solid rgba(255, 202, 212, 0.1);
-            padding-bottom: 6px;
-        }
-
-        .letter-body {
-            line-height: 1.7;
-            white-space: pre-wrap;
-            color: #fff;
-            font-size: 1.05rem;
-        }
-        
-        .letter-card::after {
-            content: '🪷';
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            opacity: 0.2;
-            font-size: 1.4rem;
-            filter: drop-shadow(0 0 5px var(--soft-pink));
-        }
-
-        #error-msg {
-            color: #ff8b8b;
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            min-height: 24px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes cardAppear {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        @media (max-width: 480px) {
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-            .container {
-                padding: 30px 20px;
-            }
-            h1 {
-                font-size: 3rem;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Beautiful Whimsical Lily Accents -->
-    <div class="lily-decoration lily-1">🪷</div>
-    <div class="lily-decoration lily-2">🪷</div>
-    <div class="lily-decoration lily-3">🪷</div>
-
-    <div class="container">
-        <!-- LOCK SCREEN -->
-        <div id="lock-screen">
-            <h1>Our Secret Garden</h1>
-            <p>Enter the magic code to see our letters...</p>
-            <div class="input-group" style="max-width: 280px;">
-                <input type="password" id="secret-code" placeholder="••••••••" style="text-align: center; letter-spacing: 5px;">
-            </div>
-            <button type="button" onclick="unlockGarden()">Unlock Garden</button>
-            <div id="error-msg"></div>
-        </div>
-
-        <!-- APP SCREEN -->
-        <div id="app-screen">
-            <h1>Write a Letter</h1>
-            
-            <div class="form-row">
-                <div class="input-group">
-                    <label for="from-input">From:</label>
-                    <input type="text" id="from-input" placeholder="Your name...">
-                </div>
-                <div class="input-group">
-                    <label for="to-input">To:</label>
-                    <input type="text" id="to-input" placeholder="Her name...">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label for="message-input">What's on your mind?</label>
-                <textarea id="message-input" placeholder="Type your thoughts here, love..."></textarea>
-            </div>
-
-            <div style="text-align: center;">
+            margin-bottom: 12
+
