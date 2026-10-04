@@ -1,7 +1,8 @@
-<!DOCTYPE html> (Bare with me, lovely, I am still unfamiliar with this.)
-<html>
+<!DOCTYPE html> (This is unfamiliar and  it's not perfect, but this is our gardern letters, lovely) 
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Letters</title>
 <style>
   body {
@@ -9,6 +10,8 @@
     color: pink;
     font-family: Arial, sans-serif;
     padding: 20px;
+    /* Keeps the fixed footer from covering form contents when scrolling to the bottom */
+    margin-bottom: 270px; 
   }
   #letterBox {
     width: 100%;
@@ -17,33 +20,63 @@
   #pinInput {
     width: 120px;
   }
+  
+  /* Persistent Bottom Bar Styling */
+  .letters-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffe4e1; /* Slightly adjusted for better text contrast if needed */
+    border-top: 4px solid pink;
+    padding: 15px 20px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    max-height: 220px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Allows scrolling inside the container if there are many letters */
+  }
+
+  .letters-footer h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: forestgreen;
+    font-size: 1.5rem;
+  }
+
   .letter {
     background: pink;
     color: forestgreen;
     padding: 10px;
-    margin: 10px 0;
+    margin: 8px 0;
     border-radius: 6px;
   }
   .loading {
-    color: yellow;
+    color: darkgoldenrod;
     font-style: italic;
   }
 </style>
 </head>
 <body>
 
-<h1>Send a Letter</h1>
+<main>
+  <h1>Send a Letter</h1>
 
-<label>PIN:</label>
-<input id="pinInput" type="password" placeholder="Enter PIN">
-<br><br>
+  <label for="pinInput">PIN:</label><br>
+  <input id="pinInput" type="password" placeholder="Enter PIN">
+  <br><br>
 
-<textarea id="letterBox" placeholder="Write your letter..."></textarea><br><br>
+  <label for="letterBox">Your Letter:</label><br>
+  <textarea id="letterBox" placeholder="Write your letter..."></textarea><br><br>
 
-<button onclick="submitLetter()">Submit Letter</button>
+  <button onclick="submitLetter()">Submit Letter</button>
+</main>
 
-<h2>Letters</h2>
-<div id="letters" class="loading">Loading letters...</div>
+<!-- Semantically correct & accessible landmarks for screen readers -->
+<footer class="letters-footer" aria-labelledby="letters-heading">
+  <h2 id="letters-heading">Letters</h2>
+  <div id="letters" class="loading">Loading letters...</div>
+</footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
@@ -113,10 +146,11 @@ function submitLetter() {
 
 function renderLetters(letters) {
   const container = document.getElementById("letters");
+  container.className = ""; // Remove loading class
   container.innerHTML = "";
   
   if (letters.length === 0) {
-    container.innerHTML = "<p style='color: yellow;'>No letters yet...</p>";
+    container.innerHTML = "<p style='color: forestgreen;'>No letters yet...</p>";
     return;
   }
   
